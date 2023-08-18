@@ -75,9 +75,6 @@ impl<R: ConsensusRpc, DB: Database> ConsensusClient<R, DB> {
                 .unwrap_or(config.default_checkpoint.clone())
         });
 
-        println!("rpc: {:?}", &rpc);
-        println!("checkpoint: {:?}", &checkpoint);
-
         tokio::spawn(async move {
             let mut inner = Inner::<R>::new(
                 &rpc,
@@ -329,6 +326,7 @@ impl<R: ConsensusRpc> Inner<R> {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     pub async fn send_blocks(&self) -> Result<()> {
         let slot = self.store.optimistic_header.slot.as_u64();
         let payload = self.get_execution_payload(&Some(slot)).await?;
@@ -368,7 +366,6 @@ impl<R: ConsensusRpc> Inner<R> {
             .get_bootstrap(checkpoint)
             .await
             .map_err(|e| eyre!("could not fetch bootstrap {}", e))?;
-        println!("bootstrap fetched successful");
         let is_valid = self.is_valid_checkpoint(bootstrap.header.slot.into());
 
         if !is_valid {
@@ -378,7 +375,6 @@ impl<R: ConsensusRpc> Inner<R> {
                 warn!("checkpoint too old, consider using a more recent block");
             }
         }
-        println!("checkpoint valid");
 
         let committee_valid = is_current_committee_proof_valid(
             &bootstrap.header,
@@ -393,12 +389,10 @@ impl<R: ConsensusRpc> Inner<R> {
         if !header_valid {
             return Err(ConsensusError::InvalidHeaderHash(expected_hash, header_hash).into());
         }
-        println!("header valid");
 
         if !committee_valid {
             return Err(ConsensusError::InvalidCurrentSyncCommitteeProof.into());
         }
-        println!("committee valid");
 
         self.store = LightClientStore {
             finalized_header: bootstrap.header.clone(),
