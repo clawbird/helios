@@ -325,8 +325,6 @@ impl<R: ConsensusRpc> Inner<R> {
         Ok(())
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     pub async fn send_blocks(&self) -> Result<()> {
         let slot = self.store.optimistic_header.slot.as_u64();
         let payload = self.get_execution_payload(&Some(slot)).await?;
