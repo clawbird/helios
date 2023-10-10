@@ -2,6 +2,14 @@ use std::fmt::Display;
 
 use ethers::types::{Address, Bytes, Transaction, H256, U256, U64};
 use serde::{de::Error, ser::SerializeSeq, Deserialize, Serialize};
+use serde_bytes::ByteBuf; // Import serde_bytes for binary data serialization
+
+#[derive(Deserialize, Serialize, Debug, Clone, Default)]
+pub struct CheckpointData {
+    pub field1: String,
+    pub field2: u32,
+    pub binary_data: ByteBuf, // Use serde_bytes for binary data serialization
+}
 
 #[derive(Deserialize, Serialize, Debug, Clone, Default)]
 #[serde(rename_all = "camelCase")]

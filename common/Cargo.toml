@@ -10,3 +10,4 @@ hex.workspace = true
 ssz-rs.workspace = true
 ethers.workspace = true
 thiserror.workspace = true
+serde_bytes.workspace = true

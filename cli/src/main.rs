@@ -18,6 +18,8 @@ use tracing_subscriber::FmtSubscriber;
 use client::{Client, ClientBuilder};
 use config::{CliConfig, Config};
 
+use partial_view::PartialViewDataStorage;
+
 #[tokio::main]
 async fn main() -> Result<()> {
     let env_filter = EnvFilter::builder()

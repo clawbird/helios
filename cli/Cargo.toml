@@ -21,3 +21,4 @@ ctrlc = "3.2.3"
 client = { path = "../client" }
 config = { path = "../config" }
 common = { path = "../common" }
+partial_view = { path = "../partial_view" }

@@ -14,8 +14,10 @@ members = [
     "common",
     "config",
     "consensus",
+    "database",
     "execution",
     "helios-ts",
+    "partial_view"
 ]
 
 default-members = ["cli"]
@@ -43,6 +45,7 @@ tokio = { version = "1", features = ["rt", "sync", "macros"] }
 reqwest = { version = "0.11.13", features = ["json"] }
 serde = { version = "1.0.143", features = ["derive"] }
 serde_json = "1.0.85"
+serde_bytes = { version = "0.11.12" }
 
 # misc
 eyre = "0.6.8"
@@ -67,6 +70,7 @@ client = { path = "./client" }
 config = { path = "./config" }
 common = { path = "./common" }
 consensus = { path = "./consensus" }
+database = { path = "./database" }
 execution = { path = "./execution" }
 
 [dev-dependencies]

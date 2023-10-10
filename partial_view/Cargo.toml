@@ -1,0 +1,28 @@
+[package]
+name = "partial_view"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "partial_view"
+path = "src/lib.rs"
+
+[dependencies]
+ethers.workspace = true
+eyre.workspace = true
+# log.workspace = true
+futures.workspace = true
+serde_bytes.workspace = true
+tokio.workspace = true
+
+
+# TODO - check which of the following are required
+serde = "1"
+serde_json = "1"
+
+rmp-serde = "0.15"
+
+client = { path = "../client" }
+config = { path = "../config" }
+common = { path = "../common" }
+database = { path = "../database" }
