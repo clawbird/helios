@@ -53,36 +53,6 @@ async fn main() -> Result<()> {
         "balance of address: {}",
         utils::format_ether(balance)
     );
-    
-
-
-//     let addresses = block
-//     .transactions
-//     .iter()
-//     .map(|tx| {
-//         let from = tx.from;
-//         let to = tx.to;
-//         vec![from, to.unwrap_or_default()]
-//     })
-//     .flatten()
-//     .collect::<Vec<_>>();
-
-// println!(
-//         "Addresses: {:?}, State root: {:?}",
-//         addresses, block.state_root
-//     );
-
-//sogol added:
-// Fetch the block data, including the state root
-// let block_number_to_fetch = 12345; // Replace with the desired block number
-// let block_data = fetch_block_data(&provider_url, block_number_to_fetch).await?;
-
-// // Iterate through accounts and fetch their state roots
-// for account_address in get_all_accounts(&block_data.state_root) {
-//     let state_root = fetch_state_root(&block_data.state_root, &account_address).await?;
-//     // Process or store the state root as needed
-//     println!("Account: {:?}, State Root: {:?}", account_address, state_root);
-// }
 
     Ok(())
 }
