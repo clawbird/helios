@@ -10,6 +10,7 @@ use clap::Parser;
 use common::utils::hex_str_to_bytes;
 use dirs::home_dir;
 use eyre::Result;
+use ethers::prelude::Address;
 use futures::executor::block_on;
 use tracing::{error, info};
 use tracing_subscriber::filter::{EnvFilter, LevelFilter};
@@ -34,7 +35,20 @@ async fn main() -> Result<()> {
     tracing::subscriber::set_global_default(subscriber).expect("subsriber set failed");
 
     let config = get_config();
-    let mut client = match ClientBuilder::new().config(config).build() {
+
+    // TODO - we shouldnt need this any, as we pass the addresses as optional flags in the cli
+    // Define your target addresses here
+    // let target_addresses = vec![
+    //     Address::from_str("0xYourTargetAddress1").unwrap(),
+    //     Address::from_str("0xYourTargetAddress2").unwrap(),
+    // ];
+
+    // Create the Helios client with the specified target addresses
+    let mut client = match ClientBuilder::new()
+        .config(config)
+        // .target_addresses(target_addresses.clone()) // Pass target addresses here
+        .build()
+    {
         Ok(client) => client,
         Err(err) => {
             error!(target: "helios::runner", error = %err);
@@ -117,6 +131,8 @@ struct Cli {
     load_external_fallback: bool,
     #[clap(short = 's', long, env)]
     strict_checkpoint_age: bool,
+    #[clap(short = 'a', long, env)]
+    target_addresses: Option<Vec<String>>,
 }
 
 impl Cli {
@@ -125,6 +141,10 @@ impl Cli {
             .checkpoint
             .as_ref()
             .map(|c| hex_str_to_bytes(c).expect("invalid checkpoint"));
+
+        // let target_addresses = self.target_addresses.as_ref().map(|addresses| {
+        //     addresses.iter().map(|address| address.to_string()).collect()
+        // });
 
         CliConfig {
             checkpoint,
@@ -136,6 +156,7 @@ impl Cli {
             fallback: self.fallback.clone(),
             load_external_fallback: self.load_external_fallback,
             strict_checkpoint_age: self.strict_checkpoint_age,
+            target_addresses: self.target_addresses.clone(),
         }
     }
 

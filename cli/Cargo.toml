@@ -9,6 +9,7 @@ path = "src/main.rs"
 
 [dependencies]
 tokio.workspace = true
+ethers.workspace = true
 eyre.workspace = true
 tracing.workspace = true
 futures.workspace = true

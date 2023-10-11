@@ -17,7 +17,8 @@ members = [
     "database",
     "execution",
     "helios-ts",
-    "partial_view"
+    "partial_view",
+    "peer2peer"
 ]
 
 default-members = ["cli"]
