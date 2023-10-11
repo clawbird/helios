@@ -195,6 +195,14 @@ impl ClientBuilder {
             self.strict_checkpoint_age
         };
 
+        let target_addresses = if self.target_addresses.is_some() {
+            self.target_addresses
+        } else if let Some(config) = &self.config {
+            config.target_addresses.clone()
+        } else {
+            None
+        };
+
         let config = Config {
             consensus_rpc,
             execution_rpc,
@@ -218,7 +226,7 @@ impl ClientBuilder {
             fallback,
             load_external_fallback,
             strict_checkpoint_age,
-            target_addresses: None,
+            target_addresses,
         };
 
         Client::new(config)

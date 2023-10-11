@@ -142,9 +142,9 @@ impl Cli {
             .as_ref()
             .map(|c| hex_str_to_bytes(c).expect("invalid checkpoint"));
 
-        // let target_addresses = self.target_addresses.as_ref().map(|addresses| {
-        //     addresses.iter().map(|address| address.to_string()).collect()
-        // });
+        let target_addresses: Option<String> = self.target_addresses.as_ref().map(|addresses| {
+            addresses.iter().map(|address| address.to_string()).collect()
+        });
 
         CliConfig {
             checkpoint,
