@@ -276,9 +276,6 @@ impl Client {
         #[cfg(not(target_arch = "wasm32"))]
         if let Some(rpc) = &mut self.rpc {
             rpc.start().await?;
-
-            let no = rpc.node.get_block_number().await?;
-            info!("no {}", no);
         }
 
         Ok(())

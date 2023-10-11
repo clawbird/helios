@@ -112,16 +112,20 @@ async fn main() -> Result<()> {
     // ];
 
     // Create the Helios client with the specified target addresses
-    let mut client = match ClientBuilder::new().config(config).build() {
+    let mut client = match ClientBuilder::new()
+        .config(config)
+        // .target_addresses(target_addresses.clone()) // Pass target addresses here
+        .build()
+    {
         Ok(client) => client,
         Err(err) => {
-            error!("{}", err);
+            error!(target: "helios::runner", error = %err);
             exit(1);
         }
     };
 
     if let Err(err) = client.start().await {
-        error!("{}", err);
+        error!(target: "helios::runner", error = %err);
         exit(1);
     }
 
