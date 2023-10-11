@@ -22,7 +22,7 @@ use common::{
 use execution::types::CallOpts;
 
 pub struct Rpc {
-    node: Arc<Node>,
+    pub node: Arc<Node>,
     handle: Option<HttpServerHandle>,
     address: SocketAddr,
 }

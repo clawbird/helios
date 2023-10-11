@@ -28,94 +28,88 @@ use partial_view::PartialViewDataStorage;
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    let env_filter = EnvFilter::builder()
+        .with_default_directive(LevelFilter::INFO.into())
+        .from_env()
+        .expect("invalid env filter");
+
+    let subscriber = FmtSubscriber::builder()
+        .with_env_filter(env_filter)
+        .finish();
+
+    tracing::subscriber::set_global_default(subscriber).expect("subsriber set failed");
+
+    let config = get_config();
+
     // env_logger::Builder::from_env(Env::default().default_filter_or("info")).init();
 //sogol addded: 
     // Initialize the Ethereum provider URL and address public key from environment variables
-    let provider_url = std::env::var("PROVIDER_URI").unwrap_or_else(|_| "http://127.0.0.1:8545".to_string());
+    // let provider_url = std::env::var("PROVIDER_URI").unwrap_or_else(|_| "http://127.0.0.1:8545".to_string());
     // let public_key = std::env::var("ETHEREUM_ADDRESS_PUBLIC_KEY").expect("ETHEREUM_ADDRESS_PUBLIC_KEY not set");
     // Initialize the Ethereum provider URL from environment variable or use default
-    let provider = Provider::<Http>::try_from(provider_url)?;
+    // let provider = Provider::<Http>::try_from(provider_url)?;
 
-    let block_number = 9751182; // Replace with the desired block number
+    // let block_number = 9751182; // Replace with the desired block number
 
-    let example_str_addr: &str = "0xe7cf7C3BA875Dd3884Ed6a9082d342cb4FBb1f1b";
-    let example_addr: Address = example_str_addr.parse().unwrap();
+    // let example_str_addr: &str = "0xe7cf7C3BA875Dd3884Ed6a9082d342cb4FBb1f1b";
+    // let example_addr: Address = example_str_addr.parse().unwrap();
 
-    // Fetch all transactions within the specified block
-    let transactions = fetch_all_transactions(&provider, block_number).await?;
+    // // Fetch all transactions within the specified block
+    // let transactions = fetch_all_transactions(&provider, block_number).await?;
 
-    let addresses = transactions.iter()
-        .filter_map(|tx| {
-            let from = tx.from;
-            let to = tx.to.unwrap_or_default();
-            if to.is_contract() {
-                Some(to)
-            } else {
-                Some(from)
-            }
-        })
-        .collect::<Vec<_>>();
-    println!(
-        "Addresses: {:?}, Number of Transactions: {}",
-        addresses,
-        transactions.len()
-    );
+    // let addresses = transactions.iter()
+    //     .filter_map(|tx| {
+    //         let from = tx.from;
+    //         let to = tx.to.unwrap_or_default();
+    //         if to.is_contract() {
+    //             Some(to)
+    //         } else {
+    //             Some(from)
+    //         }
+    //     })
+    //     .collect::<Vec<_>>();
+    // println!(
+    //     "Addresses: {:?}, Number of Transactions: {}",
+    //     addresses,
+    //     transactions.len()
+    // );
 
-    let config = get_config();
+    // let provider = Provider::<Http>::try_from(
+    //     provider_url,
+    // )?;
 
-    // Create the Helios client with the specified target addresses
-    let mut client = match ClientBuilder::new().config(config).build() {
-        Ok(client) => client,
-        Err(err) => {
-            error!("{}", err);
-            exit(1);
-        }
-    };
+    // let block_number = 9751182;
+    // let block = provider
+    //     .get_block_with_txs(BlockId::Number(block_number.into()))
+    //     .await?;
 
-    if let Err(err) = client.start().await {
-        error!("{}", err);
-        exit(1);
-    }
+    // let block = match block {
+    //     Some(block) => block,
+    //     None => return Err(eyre!("Block not found")),
+    // };
 
-    let provider = Provider::<Http>::try_from(
-        provider_url,
-    )?;
+    // let addresses = block
+    //     .transactions
+    //     .iter()
+    //     .map(|tx| {
+    //         let from = tx.from;
+    //         let to = tx.to;
+    //         vec![from, to.unwrap_or_default()]
+    //     })
+    //     .flatten()
+    //     .collect::<Vec<_>>();
 
-    let block_number = 9751182;
-    let block = provider
-        .get_block_with_txs(BlockId::Number(block_number.into()))
-        .await?;
-
-    let block = match block {
-        Some(block) => block,
-        None => return Err(eyre!("Block not found")),
-    };
-
-    let addresses = block
-        .transactions
-        .iter()
-        .map(|tx| {
-            let from = tx.from;
-            let to = tx.to;
-            vec![from, to.unwrap_or_default()]
-        })
-        .flatten()
-        .collect::<Vec<_>>();
-
-    println!(
-        "Addresses: {:?}, State root: {:?}",
-        addresses, block.state_root
-    );
+    // println!(
+    //     "Addresses: {:?}, State root: {:?}",
+    //     addresses, block.state_root
+    // );
    
-    let config = get_config();
-
+    // TODO - we shouldnt need this any, as we pass the addresses as optional flags in the cli
     // Define your target addresses here
-    // We shouldnt need this any, as we pass the addresses as optional flags in the cli
     // let target_addresses = vec![
     //     Address::from_str("0xYourTargetAddress1").unwrap(),
     //     Address::from_str("0xYourTargetAddress2").unwrap(),
     // ];
-
 
     // Create the Helios client with the specified target addresses
     let mut client = match ClientBuilder::new().config(config).build() {
