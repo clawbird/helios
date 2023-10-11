@@ -360,12 +360,12 @@ impl<R: ConsensusRpc> Inner<R> {
     }
 
     async fn bootstrap(&mut self, checkpoint: &[u8]) -> Result<()> {
+        // println!("initial checkpoint: {:?}", self.initial_checkpoint);
         let mut bootstrap = self
             .rpc
             .get_bootstrap(checkpoint)
             .await
-            .map_err(|_| eyre!("could not fetch bootstrap"))?;
-
+            .map_err(|e| eyre!("could not fetch bootstrap {}", e))?;
         let is_valid = self.is_valid_checkpoint(bootstrap.header.slot.into());
 
         if !is_valid {

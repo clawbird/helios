@@ -1,0 +1,24 @@
+[package]
+name = "partial_view"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "partial_view"
+path = "src/lib.rs"
+
+[dependencies]
+ethers.workspace = true
+eyre.workspace = true
+# log.workspace = true
+futures.workspace = true
+serde_bytes.workspace = true
+tokio.workspace = true
+serde.workspace = true
+rmp-serde = "1.1.2"
+
+client = { path = "../client" }
+config = { path = "../config" }
+common = { path = "../common" }
+consensus = { path = "../consensus" }
+database = { path = "../database" }

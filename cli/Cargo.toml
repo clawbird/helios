@@ -9,6 +9,7 @@ path = "src/main.rs"
 
 [dependencies]
 tokio.workspace = true
+ethers.workspace = true
 eyre.workspace = true
 tracing.workspace = true
 futures.workspace = true
@@ -21,3 +22,4 @@ ctrlc = "3.2.3"
 client = { path = "../client" }
 config = { path = "../config" }
 common = { path = "../common" }
+partial_view = { path = "../partial_view" }

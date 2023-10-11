@@ -1,0 +1,3 @@
+[submodule "ethereum-proof"]
+	path = ethereum-proof
+	url = https://github.com/sogolmalek/ethereum-proof
